@@ -1,0 +1,35 @@
+<%- include ("partials/header") -%>
+	<div class="pageTitle">Logovanje</div>
+	<div class="loginWrap">
+		<form method="POST" action="/login" id="login-form">
+			<div class="inputWrap">
+				<div class="title">E-mail:</div>
+				<div class="inputWrapper">
+					<input type="text" name="email" onfocus="highlight(this)" onfocusout="removeHighlight(this)">
+				</div>
+			</div>
+			<div class="inputWrap">
+				<div class="title">Lozinka:</div>
+				<div class="inputWrapper">
+					<input type="password" name="password" onfocus="highlight(this)" onfocusout="removeHighlight(this)">
+				</div>
+			</div>
+			<div class="inputWrap">
+				<div class="button" onclick="submitLogin()">Uloguj se</div>
+			</div>
+		</form>
+	</div>
+	<script>
+		function highlight(elem){
+			elem.parentElement.parentElement.getElementsByClassName("title")[0].classList.add("highlight");
+		}
+
+		function removeHighlight(elem){
+			elem.parentElement.parentElement.getElementsByClassName("title")[0].classList.remove("highlight");
+		}
+
+		function submitLogin(){
+			document.getElementById("login-form").submit();
+		}
+	</script>
+<%- include ("partials/footer") -%>
