@@ -543,7 +543,7 @@
             nalazArray.push(fakturaJson.klinickiNalaz.substring(wholeRows*charactersPerLine,loopLength))
             var nalaz	=	nalazArray.join("");
 			doc.text(nalaz,offset,yPos);
-			yPos 	=	yPos +doc.getTextDimensions(nalaz).h/mm +7;
+			yPos 	=	yPos +doc.getTextDimensions(nalaz).h/mm +12;
 			doc.setFontType("bold");
 			doc.text("Dijagnoza: ",5,yPos);
             doc.setFontType("normal");
