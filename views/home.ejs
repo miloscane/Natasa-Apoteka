@@ -1,5 +1,5 @@
 <%- include ("partials/header") -%>
-	<script src="/js/pdf.js"></script>
+	<script src="/js/pdf2.js"></script>
 	<script src="/js/qr.js"></script>
 	<div class="pageTitle">Fakturisanje</div>
 	<div class="menu" id="menu">
@@ -14,14 +14,14 @@
 			<div id="new-invoice">
 				<form method="POST" action="/new-invoice" id="new-invoice-form">
 					<div class="inputWrapper">
-						<div class="note">Broj Racuna:</div>
+						<div class="note">Broj Računa:</div>
 						<div class="inputWrap">
 							<input type="text" id="broj-fakture">
 						</div>
 						<div class="error"></div>
 					</div>
 					<div class="inputWrapper">
-						<div class="note">Datum Racuna:</div>
+						<div class="note">Datum Računa:</div>
 						<div class="inputWrap">
 							<input type="date" id="datum-fakture">
 						</div>
@@ -52,7 +52,7 @@
 						<div class="error"></div>
 					</div>
 					<div class="inputWrapper">
-						<div class="title">Podaci o zivotinji:</div>
+						<div class="title">Podaci o životinji:</div>
 					</div>
 					<div class="inputWrapper">
 						<div class="note">Ime:</div>
@@ -69,7 +69,7 @@
 						<div class="error"></div>
 					</div>
 					<div class="inputWrapper">
-						<div class="note">Mikrocip:</div>
+						<div class="note">Mikročip:</div>
 						<div class="inputWrap extended">
 							<input type="text" id="mikrocip-zivotinje">
 						</div>
@@ -90,14 +90,14 @@
 						<div class="error"></div>
 					</div>
 					<div class="inputWrapper">
-						<div class="note">Datum Rodjenja:</div>
+						<div class="note">Datum Rođenja:</div>
 						<div class="inputWrap">
 							<input type="date" id="datum-rodjenja-zivotinje">
 						</div>
 						<div class="error"></div>
 					</div>
 					<div class="inputWrapper">
-						<div class="note">Tezina:</div>
+						<div class="note">Težina:</div>
 						<div class="inputWrap extended">
 							<input type="text" id="tezina-zivotinje">
 						</div>
@@ -118,7 +118,7 @@
 						<div class="error"></div>
 					</div>
 					<div class="inputWrapper">
-						<div class="note">Klinicki nalaz:</div>
+						<div class="note">Klinički nalaz:</div>
 						<div class="inputWrap extended">
 							<textarea id="klinicki-nalaz-zivotinje"></textarea>
 						</div>
@@ -218,16 +218,15 @@
 								serviceWrap.appendChild(serviceDelete);
 							document.getElementById("services").appendChild(serviceWrap);
 						}
-						addService("Neka usluga 1",1,1000);
-						addService("Neka usluga 2",2,1000);
 
 						function removeService(elem){
 							elem.parentElement.parentElement.remove();
 						}
 					</script>
 					<div style="margin-top:10px;margin-bottom:10px;padding-bottom:10px;border-bottom:2px solid rgb(255,255,255)"></div>
-					<div class="button" onclick="printPdf(2)">Stampaj PDF</div>
-					<div class="button" onclick="printPdf(1)">Sacuvaj PDF</div>
+					<div class="button" onclick="printPdf(2)">Štampaj PDF</div>
+					<div class="button" onclick="printPdf(1)">Sačuvaj PDF</div>
+					<div class="button" onclick="loadExample()">Učitaj Primer</div>
 				</form>
 			</div>
 			
@@ -272,6 +271,8 @@
 	<div style="overflow:hidden;height:1px;width:1px;">
 		<div id="qr-code" style="width:300px;height:300px"></div>
 	</div>
+	<script src="/js/font.js"></script>
+	<script src="/js/font2.js"></script>
 	<script>
 		var sections	=	document.getElementById("sections").getElementsByClassName("section");
 		var menuItems	=	document.getElementById("menu").getElementsByClassName("menuItem");
@@ -294,49 +295,57 @@
 
 		var exampleJson	=	{};
 		exampleJson.broj			=	"2021/5448";
-		exampleJson.datumFakture	=	"31.10.2022";
-		exampleJson.imeVlasnika		=	"Milos Ivankovic";
-		exampleJson.adresaVlasnika	=	"Vukasoviceva 37/8, 11090 Beograd";
+		exampleJson.datumFakture	=	"2022-10-31";
+		exampleJson.imeVlasnika		=	"Miloš Ivanković";
+		exampleJson.adresaVlasnika	=	"Vukasovićeva 37/8, 11090 Beograd";
 		exampleJson.telefonVlasnika	=	"065/3592-571";
 
 		exampleJson.imeZivotinje	=	"Beki";
-		exampleJson.vrstaRasa		=	"Pas / Mesanac";
+		exampleJson.vrstaRasa		=	"Pas / Mešanac";
 		exampleJson.mikrocip		=	"6880500000215790";
-		exampleJson.pol				=	"Zenka";
+		exampleJson.pol				=	"Ženka";
 		exampleJson.boja			=	"Belo braon";
-		exampleJson.datumRodjenja	=	"28.1.2010";
+		exampleJson.datumRodjenja	=	"2010-01-28";
 		exampleJson.tezina			=	"6";
 		exampleJson.temperatura		=	"36";
 		exampleJson.anamneza		=	"Pas mokri krv";
-		exampleJson.klinickiNalaz	=	"Kuja 13 godina stara, nema bolova, sluzukoze b.o., ln. nisu osteceni, ultrazvucno se vidi besika mala 2,5cm u precniku, u besici prisutan pesak i urolithi, u levom bubregu prisutan pesak u bubreznoj karlici, struktura bubrega blago prosirene casice. Jetra b.o.";
+		exampleJson.klinickiNalaz	=	"Kuja 13 godina stara, nema bolova, sluzukože b.o., ln. nisu oštećeni, ultrazvučno se vidi bešika mala 2,5cm u prečniku, u bešici prisutan pesak i urolithi, u levom bubregu prisutan pesak u bubrežnoj karlici, struktura bubrega blago proširene časice. Jetra b.o.";
 		exampleJson.dijagnoza		=	"Urilithiasis";
 		exampleJson.lek				=	"";
 		exampleJson.napomena		=	"";
 		exampleJson.preporuka		=	"rowatinex 2x2, bactrim 480mg, 2x1. Kontrola za 7 dana.";
-		exampleJson.imeVeterinara	=	"Natasa Cubrak";
+		exampleJson.imeVeterinara	=	"Nataša Čubrak";
 
-		document.getElementById("broj-fakture").value	=	exampleJson.broj;
-		document.getElementById("datum-fakture").value	=	exampleJson.datumFakture;
-		document.getElementById("ime-vlasnika").value	=	exampleJson.imeVlasnika;
-		document.getElementById("adresa-vlasnika").value	=	exampleJson.adresaVlasnika;
-		document.getElementById("telefon-vlasnika").value	=	exampleJson.telefonVlasnika;
+		function loadExample(){
+			document.getElementById("broj-fakture").value	=	exampleJson.broj;
+			document.getElementById("datum-fakture").value	=	exampleJson.datumFakture;
+			document.getElementById("ime-vlasnika").value	=	exampleJson.imeVlasnika;
+			document.getElementById("adresa-vlasnika").value	=	exampleJson.adresaVlasnika;
+			document.getElementById("telefon-vlasnika").value	=	exampleJson.telefonVlasnika;
 
-		document.getElementById("ime-zivotinje").value	=	exampleJson.imeZivotinje;
-		document.getElementById("vrsta-rasa-zivotinje").value	=	exampleJson.vrstaRasa;
-		document.getElementById("mikrocip-zivotinje").value	=	exampleJson.mikrocip;
-		document.getElementById("pol-zivotinje").value	=	exampleJson.pol;
-		document.getElementById("boja-zivotinje").value	=	exampleJson.boja;
-		document.getElementById("datum-rodjenja-zivotinje").value	=	exampleJson.datumRodjenja;
-		document.getElementById("tezina-zivotinje").value	=	exampleJson.tezina;
-		document.getElementById("temperatura-zivotinje").value	=	exampleJson.temperatura;
-		document.getElementById("anamneza-zivotinje").value	=	exampleJson.anamneza;
-		document.getElementById("klinicki-nalaz-zivotinje").value	=	exampleJson.klinickiNalaz;
-		document.getElementById("dijagnoza-zivotinje").value	=	exampleJson.dijagnoza;
-		document.getElementById("lek-zivotinje").value	=	exampleJson.lek;
-		document.getElementById("napomena-zivotinje").value	=	exampleJson.napomena;
-		document.getElementById("preporuka-zivotinje").value	=	exampleJson.preporuka;
-		document.getElementById("ime-veterinara").value	=	exampleJson.imeVeterinara;
+			document.getElementById("ime-zivotinje").value	=	exampleJson.imeZivotinje;
+			document.getElementById("vrsta-rasa-zivotinje").value	=	exampleJson.vrstaRasa;
+			document.getElementById("mikrocip-zivotinje").value	=	exampleJson.mikrocip;
+			document.getElementById("pol-zivotinje").value	=	exampleJson.pol;
+			document.getElementById("boja-zivotinje").value	=	exampleJson.boja;
+			document.getElementById("datum-rodjenja-zivotinje").value	=	exampleJson.datumRodjenja;
+			document.getElementById("tezina-zivotinje").value	=	exampleJson.tezina;
+			document.getElementById("temperatura-zivotinje").value	=	exampleJson.temperatura;
+			document.getElementById("anamneza-zivotinje").value	=	exampleJson.anamneza;
+			document.getElementById("klinicki-nalaz-zivotinje").value	=	exampleJson.klinickiNalaz;
+			document.getElementById("dijagnoza-zivotinje").value	=	exampleJson.dijagnoza;
+			document.getElementById("lek-zivotinje").value	=	exampleJson.lek;
+			document.getElementById("napomena-zivotinje").value	=	exampleJson.napomena;
+			document.getElementById("preporuka-zivotinje").value	=	exampleJson.preporuka;
+			document.getElementById("ime-veterinara").value	=	exampleJson.imeVeterinara;
+			addService("Klinički pregled",1,1000);
+			addService("Uključivanje infuzije",2,1000);
+		}
 
+		function reshuffleDate(dateString){
+			var dateArray	=	dateString.split("-");
+			return dateArray[2]+"/"+dateArray[1]+"/"+dateArray[0]
+		}
 
 		function printPdf(testCase){
 			var fakturaJson				=	{};
@@ -371,46 +380,59 @@
 				fakturaJson.usluge.push(serviceObject);
 			}
 
+    
+
+
 			doc = new jsPDF({
 				orientation: 'p',
 				unit: 'mm',
 				format: 'a4',
-				putOnlyUsedFonts:true
+				//putOnlyUsedFonts:true
 			});
+
+			
 			pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
 			pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
 			var yPos = 12;
 
-			doc.getFontList("Helvetica");
+			//doc.getFontList("Helvetica");
+
+  			//doc.addFont("Arimo-Bold.ttf", "Arimo", "bold");
+		    doc.addFileToVFS("PTSans.ttf", PTSans);
+		    doc.addFileToVFS("PTSansBold.ttf", PTSansBold);
+		    doc.addFont('PTSans.ttf', 'PTSans', 'normal');
+		    doc.addFont('PTSansBold.ttf', 'PTSans', 'bold');
+
+		    doc.setFont('PTSans'); // set font
+		    doc.getFontList("PTSans");
             doc.addImage(headerLogoBlob, 'PNG', 5, 2, 400/mm, 200/mm);
 			doc.setFontType("bold");
 			doc.setFontSize(16);
-            doc.text("AV LAVE Veterinarska Stanica",120,yPos);
+            doc.text("AV LAVE Veterinarska Stanica",205,yPos,'right');
             doc.setFontType("normal");
 			doc.setFontSize(11);
 			yPos = yPos + 5;
-            doc.text("Jug Bogdanova 32, 37000 Kruševac",138.5,yPos);
+            doc.text("Jug Bogdanova 32, 37000 Kruševac",205,yPos,'right');
 			yPos = yPos + 5;
-            doc.text("063/618-142",179,yPos);
+            doc.text("063/618-142",205,yPos,'right');
 			yPos = yPos + 5;
-            doc.text("PIB: 103269784",173,yPos);
+            doc.text("PIB: 103269784",205,yPos,'right');
 			yPos = yPos + 5;
-            doc.text("Mat. Broj: 17548824",166,yPos);
+            doc.text("Mat. Broj: 17548824",205,yPos,'right');
 			yPos = yPos + 5;
-            doc.text("Broj racuna: 155-37084-17",154.5,yPos);
+            doc.text("Broj računa: 155-37084-17",205,yPos,'right');
 			yPos = yPos + 5;
-            doc.text("avlave@hotmail.com",164.5,yPos);
+            doc.text("avlave@hotmail.com",205,yPos,'right');
 			yPos = yPos + 10;
 
             doc.setFontType("bold");
 			doc.setFontSize(16);
-			var textWidth = doc.getTextWidth("Racun broj: "+fakturaJson.broj);
-			var middle = pageWidth/2 - textWidth/2;
-            doc.text("Racun broj: " + fakturaJson.broj,middle,yPos);
+            doc.text("Račun broj: "+fakturaJson.broj,pageWidth/2,yPos,'center');
             yPos = yPos + 5;
             doc.setFontType("normal");
 			doc.setFontSize(11);
-            doc.text("Datum racuna: " + fakturaJson.datumFakture,5,yPos);
+
+            doc.text("Datum računa: " + reshuffleDate(fakturaJson.datumFakture),5,yPos);
             yPos = yPos + 5;
 
             doc.setDrawColor(0);
@@ -448,7 +470,7 @@
             doc.setFontType("bold");
 			doc.setFontSize(14);
 			yPos	=	yPos + 2.5;
-			doc.text("Podaci o Zivotinji: ",6,yPos);
+			doc.text("Podaci o Životinji: ",6,yPos);
 
 			doc.setFontSize(11);
 			doc.setTextColor(0);
@@ -466,7 +488,7 @@
 			doc.text(fakturaJson.vrstaRasa,5+offset,yPos);
 			yPos 	=	yPos + 5;
 			doc.setFontType("bold");
-			doc.text("Mikrocip: ",5,yPos);
+			doc.text("Mikročip: ",5,yPos);
             doc.setFontType("normal");
 			doc.text(fakturaJson.mikrocip,5+offset,yPos);
 			yPos 	=	yPos - 10;
@@ -479,9 +501,9 @@
 			doc.text(fakturaJson.pol,offset2+offset,yPos);
 			yPos 	=	yPos + 5;
 			doc.setFontType("bold");
-			doc.text("Datum rodjenja: ",offset2,yPos);
+			doc.text("Datum rođenja: ",offset2,yPos);
             doc.setFontType("normal");
-			doc.text(fakturaJson.datumRodjenja,offset2+offset,yPos);
+			doc.text(reshuffleDate(fakturaJson.datumRodjenja),offset2+offset,yPos);
 			yPos 	=	yPos + 5;
 			doc.setFontType("bold");
 			doc.text("Boja: ",offset2,yPos);
@@ -508,7 +530,7 @@
 			doc.text(fakturaJson.anamneza,offset,yPos);
 			yPos 	=	yPos + 5;
 			doc.setFontType("bold");
-			doc.text("Klinicki Nalaz: ",5,yPos);
+			doc.text("Klinički Nalaz: ",5,yPos);
             doc.setFontType("normal");
             var loopLength = fakturaJson.klinickiNalaz.length;
             var charactersPerLine	=	90
@@ -550,7 +572,7 @@
             doc.setFontType("bold");
 			doc.setFontSize(14);
 			yPos	=	yPos + 2.5;
-			doc.text("Pruzene usluge: ",6,yPos);
+			doc.text("Pružene usluge: ",6,yPos);
 
 			doc.setFontSize(11);
 			doc.setTextColor(0);
@@ -559,7 +581,7 @@
 			var serviceOffset2	=	125;
 			var serviceOffset3	=	150;
 			doc.text("Usluga",5,yPos);
-			doc.text("Kolicina",5+serviceOffset1,yPos);
+			doc.text("Količina",5+serviceOffset1,yPos);
 			doc.text("Cena",5+serviceOffset2,yPos);
 			doc.text("Iznos",5+serviceOffset3,yPos);
 			doc.setFontType("normal");
@@ -582,13 +604,13 @@
             doc.setFontType("bold");
 			doc.setFontSize(14);
 			yPos	=	yPos + 2.5;
-			var tempString	=	"Ukupno za placanje: " + totalPrice.toFixed(0).toString();
-			doc.text(tempString,6+serviceOffset3-50,yPos);
+			var tempString	=	"Ukupno za plaćanje: " + totalPrice.toFixed(0).toString();
+			doc.text(tempString,200,yPos,'right');
 			yPos	=	yPos + 7;
 			doc.setTextColor(0);
 			doc.setFontType("normal");
 			doc.setFontSize(12);
-			doc.text("IPS Kod za instant placanje:",144,yPos);
+			doc.text("IPS Kod za instant plaćanje",200,yPos,'right');
 			yPos = yPos + 5;
 			var qrInfo = "K:PR|V:01|C:1|R:155000000003708417|N:AvLave|I:RSD"+totalPrice.toFixed(0).toString()+",00|P:"+fakturaJson.imeVlasnika+"|SF:289|S:Veterinarske usluge";
 			var qrcode = new QRCode("qr-code", {
@@ -600,25 +622,24 @@
 				correctLevel : QRCode.CorrectLevel.H
 			});
 			var canvasDataURL = document.getElementById("qr-code").getElementsByTagName("canvas")[0].toDataURL("image/png", 1.0);
-            doc.addImage(canvasDataURL, 'PNG',150, yPos, 150/mm, 150/mm);
-            doc.addImage(ipsLogoBlob, 'PNG', 163, yPos+13, 50/mm, 50/mm);
+            doc.addImage(canvasDataURL, 'PNG',160, yPos, 150/mm, 150/mm,);
+            doc.addImage(ipsLogoBlob, 'PNG', 173, yPos+13, 50/mm, 50/mm);
 
 			yPos	=	yPos + 150/mm + 10;
 			doc.setTextColor(0);
 			doc.setFontType("bold");
 			doc.setFontSize(14);
-			var textWidth = doc.getTextWidth(fakturaJson.imeVeterinara);
-			doc.text(fakturaJson.imeVeterinara,pageWidth/2-textWidth/2,yPos);
+			doc.text(fakturaJson.imeVeterinara,pageWidth/2,yPos,'center');
 			yPos	=	yPos + 5;
 
 
 			doc.setFontType("normal");
 			doc.setFontSize(9);
-			doc.text("Preuzimanje izvestaja, vlasnik zivotinje potvrdjuje da su ovako iskazani anamnesticki podaci tacni, da su mu predlozeni svi benefiti i",5,yPos);
+			doc.text("Preuzimanjem izveštaja, vlasnik životinje potvrđuje da su ovako iskazani anamnestički podaci tačni, da su mu predloženi svi benefiti i",5,yPos);
 			yPos	=	yPos + 4;
-			doc.text("potencijalni rizici izvrsene dijagnosticke i terapijske procedure, kao i svi rizici od njenog nepreduzimanja. Vlasnik takodje potvrdjuje da su mu",5,yPos);
+			doc.text("potencijalni rizici izvršene dijagnostičke i terapijske procedure, kao i svi rizici od njenog nepreduzimanja. Vlasnik takođe potvrđuje da su mu",5,yPos);
 			yPos	=	yPos + 4;
-			doc.text("uputstva u potpunosti jasna i da ce ih se pridrzavati, kao i rezima neophodnih kontrola",5,yPos);
+			doc.text("uputstva u potpunosti jasna i da će ih se pridržavati, kao i režima neophodnih kontrola",5,yPos);
 
 			if(testCase==1){
 				doc.save("Faktura.pdf");;
