@@ -297,8 +297,194 @@ input[type=number] {
     padding:10px 5px;
 }
 
+.sections{
+    width:90%;
+    margin:0 auto;
+    max-width:950px;
+}
+
+.sections .sectionInactive{
+    display:none;
+}
+
+.sections .section{
+    width:100%;
+    padding-top:30px;
+    text-align:left;
+    font-size:16px;
+}
+
+.menu{
+    font-size:0;
+}
+
+.menu .menuItem{
+    display:inline-block;
+    vertical-align:middle;
+    border-right:2px solid rgb(255,255,255);
+    padding:5px 10px;
+    font-size:22px;
+    font-weight:700;
+    background-color:rgba(254,86,25,0);
+    color:rgb(255,133,88);
+    -webkit-transition:all ease 0.2s;
+    -moz-transition:all ease 0.2s;
+    -ms-transition:all ease 0.2s;
+    -o-transition:all ease 0.2s;
+    transition:all ease 0.2s;
+    cursor:pointer;
+}
 
 
+.menu .menuItemInactive{
+    background-color:rgba(254,86,25,1);
+    color:rgb(255,255,255);
+}
+
+#new-invoice{
+    padding-bottom:50px;
+}
+
+#new-invoice .inputWrapper{
+    margin-bottom:10px;
+}
+
+#new-invoice .inputWrapper .note, #new-invoice .inputWrapper .inputWrap, #new-invoice .inputWrapper .error{
+    display:inline-block;
+    vertical-align: middle;
+}
+
+#new-invoice .inputWrapper .note{
+    font-weight:600;
+    margin-right:10px;
+    width:200px;
+}
+
+#new-invoice .inputWrapper input{
+    font-size:16px;
+    font-weight:300;
+    text-align:left;
+    color:rgb(255,255,255);
+    width:100%;
+    background-color:rgba(0,0,0,0.5);
+    padding:5px;
+    border:1px solid rgba(255,255,255,1);
+    -webkit-transition:all ease 0.5s;
+    -moz-transition:all ease 0.5s;
+    -ms-transition:all ease 0.5s;
+    -o-transition:all ease 0.5s;
+    transition:all ease 0.5s;
+}
+
+
+#new-invoice .inputWrapper input:focus{
+    outline:none;
+    border:2px solid rgba(254,86,25,1);
+    color:rgb(254,86,25);
+}
+
+#new-invoice .inputWrapper .inputWrap{
+    width:200px;
+}
+
+#new-invoice .inputWrapper .extended{
+    width:350px;
+}
+
+#new-invoice .inputWrapper .title{
+    background-color:rgb(255,255,255);
+    padding:5px;
+    color:rgb(254,86,25);
+    font-weight:700;
+    font-size:18px;
+}
+
+
+
+#new-invoice .inputWrapper textarea{
+    font-size:16px;
+    font-weight:300;
+    text-align:left;
+    color:rgb(255,255,255);
+    width:100%;
+    height:100px;
+    background-color:rgba(0,0,0,0.5);
+    padding:5px;
+    border:1px solid rgba(255,255,255,1);
+    -webkit-transition:all ease 0.5s;
+    -moz-transition:all ease 0.5s;
+    -ms-transition:all ease 0.5s;
+    -o-transition:all ease 0.5s;
+    transition:all ease 0.5s;
+}
+
+
+#new-invoice .inputWrapper textarea:focus{
+    outline:none;
+    border:2px solid rgba(254,86,25,1);
+    color:rgb(254,86,25);
+}
+
+
+#services input{
+    font-size:18px;
+    font-weight:300;
+    text-align:left;
+    color:rgb(255,255,255);
+    width:100%;
+    background-color:rgba(0,0,0,0.5);
+    padding:7px 3px;
+    border:1px solid rgba(255,255,255,1);
+    -webkit-transition:all ease 0.5s;
+    -moz-transition:all ease 0.5s;
+    -ms-transition:all ease 0.5s;
+    -o-transition:all ease 0.5s;
+    transition:all ease 0.5s;
+}
+
+
+#services input:focus{
+    outline:none;
+    border:1px solid rgba(254,86,25,1);
+    color:rgb(254,86,25);
+}
+
+.services .serviceWrap, .services .header{
+    font-size:0px;
+    margin-bottom:10px;
+}
+
+.services .serviceWrap .serviceName, .services .serviceWrap .serviceQuantity, .services .serviceWrap .servicePrice, .services .serviceWrap .serviceDelete{
+    display:inline-block;
+    vertical-align:middle;
+    font-size:14px;
+    padding:0px 3px;
+}
+
+.services .header .name, .services .header .quantity, .services .header .price{
+    display:inline-block;
+    vertical-align: middle;
+    font-size: 16px;
+    font-weight:600;
+    padding:0 3px;
+}
+
+.services .serviceWrap .serviceName, .services .header .name{
+    width:400px;
+}
+
+.services .serviceWrap .serviceQuantity, .services .header .quantity{
+    width:100px;
+}
+
+.services .serviceWrap .servicePrice, .services .header .price{
+    width:150px;
+}
+
+.services .serviceWrap .serviceDelete{
+    width:100px;
+    text-align:right;
+}
 
 
 
