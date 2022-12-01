@@ -475,7 +475,7 @@
 			yPos = yPos + 5;
             doc.text("Mat. Broj: 17548824",205,yPos,'right');
 			yPos = yPos + 5;
-            doc.text("Broj računa: 155-37084-17",205,yPos,'right');
+            doc.text("Broj računa: 155-35878-46",205,yPos,'right');
 			yPos = yPos + 5;
             doc.text("avlave@hotmail.com",205,yPos,'right');
 			yPos = yPos + 10;
@@ -525,12 +525,12 @@
             doc.setFontType("bold");
 			doc.setFontSize(14);
 			yPos	=	yPos + 2.5;
-			doc.text("Podaci o Životinji: ",6,yPos);
+			doc.text("Podaci o životinji: ",6,yPos);
 
 			doc.setFontSize(11);
 			doc.setTextColor(0);
 			yPos 	=	yPos + 7;
-			var offset = 35;
+			var offset = 30;
 
 			doc.setFontType("bold");
 			doc.text("Ime: ",5,yPos);
@@ -683,7 +683,7 @@
 			doc.setFontSize(12);
 			doc.text("IPS Kod za instant plaćanje",200,yPos,'right');
 			yPos = yPos + 5;
-			var qrInfo = "K:PR|V:01|C:1|R:155000000003708417|N:AvLave|I:RSD"+totalPrice.toFixed(0).toString()+",00|P:"+fakturaJson.imeVlasnika+"|SF:289|S:Veterinarske usluge";
+			var qrInfo = "K:PR|V:01|C:1|R:155000000003587846|N:AvLave|I:RSD"+totalPrice.toFixed(0).toString()+",00|P:"+fakturaJson.imeVlasnika+"|SF:289|S:Veterinarske usluge";
 			var qrcode = new QRCode("qr-code", {
 				text: qrInfo,
 				width: 300,
