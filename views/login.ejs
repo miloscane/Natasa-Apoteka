@@ -5,13 +5,13 @@
 			<div class="inputWrap">
 				<div class="title">E-mail:</div>
 				<div class="inputWrapper">
-					<input type="text" name="email" onfocus="highlight(this)" onfocusout="removeHighlight(this)">
+					<input type="text" name="email" id="email" onfocus="highlight(this)" onfocusout="removeHighlight(this)">
 				</div>
 			</div>
 			<div class="inputWrap">
 				<div class="title">Lozinka:</div>
 				<div class="inputWrapper">
-					<input type="password" name="password" onfocus="highlight(this)" onfocusout="removeHighlight(this)">
+					<input type="password" name="password" id="password" onfocus="highlight(this)" onfocusout="removeHighlight(this)">
 				</div>
 			</div>
 			<div class="inputWrap">
@@ -30,6 +30,22 @@
 
 		function submitLogin(){
 			document.getElementById("login-form").submit();
+		}
+
+		document.getElementById('password').onkeypress = function(e){
+			if (!e) e = window.event;
+			var keyCode = e.code || e.key;
+			if (keyCode == 'Enter'){
+				document.getElementById('login-form').submit()
+			}
+		}
+
+		document.getElementById('email').onkeypress = function(e){
+			if (!e) e = window.event;
+			var keyCode = e.code || e.key;
+			if (keyCode == 'Enter'){
+				document.getElementById('login-form').submit()
+			}
 		}
 	</script>
 <%- include ("partials/footer") -%>

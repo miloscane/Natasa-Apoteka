@@ -2,6 +2,7 @@
 	<script src="/js/pdf2.js"></script>
 	<script src="/js/qr.js"></script>
 	<div class="pageTitle">Fakturisanje</div>
+	<div class="logOut"><a href="/logout">Izloguj se</a></div>
 	<div class="menu" id="menu">
 		<div class="item menuItem menuItemInactive" data-name="invoices" onclick="menuPick(this)">Sve Fakture</div>
 		<div class="item menuItem menuItemInactive" id="first-menu-item" data-name="new-invoice" onclick="menuPick(this)">Nova Faktura</div>	
@@ -164,16 +165,29 @@
 					</div>
 					<div class="services" id="services">
 						<div class="header">
+							<div class="code">Šif.</div>
 							<div class="name">Naziv</div>
+							<div class="date">Datum</div>
 							<div class="quantity">Količina</div>
 							<div class="price">Cena na komad</div>
 						</div>
 					</div>
 					<div class="button" onclick="addService()">Dodaj Uslugu</div>
 					<script>
-						function addService(name,quantity,price){
+						function addService(name,quantity,price,date,code){
 							var serviceWrap	=	document.createElement("DIV");
 							serviceWrap.setAttribute("class","serviceWrap");
+								var serviceCode	=	document.createElement("DIV");
+								serviceCode.setAttribute("class","serviceCode");
+									var serviceCodeInput	=	document.createElement("INPUT");
+									serviceCodeInput.setAttribute("class","serviceCodeInput");
+									serviceCodeInput.setAttribute("type","number");
+									if(code){
+										serviceCodeInput.value = code;
+									}
+									serviceCode.appendChild(serviceCodeInput);
+								serviceWrap.appendChild(serviceCode);
+
 								var serviceName	=	document.createElement("DIV");
 								serviceName.setAttribute("class","serviceName");
 									var serviceNameInput	=	document.createElement("INPUT");
@@ -184,6 +198,17 @@
 									}
 									serviceName.appendChild(serviceNameInput);
 								serviceWrap.appendChild(serviceName);
+
+								var serviceDate	=	document.createElement("DIV");
+								serviceDate.setAttribute("class","serviceDate");
+									var serviceDateInput	=	document.createElement("INPUT");
+									serviceDateInput.setAttribute("class","serviceDateInput");
+									serviceDateInput.setAttribute("type","date");
+									if(date){
+										serviceDateInput.value = date;
+									}
+									serviceDate.appendChild(serviceDateInput);
+								serviceWrap.appendChild(serviceDate);
 
 								var serviceQuantity	=	document.createElement("DIV");
 								serviceQuantity.setAttribute("class","serviceQuantity");
@@ -224,9 +249,12 @@
 						}
 					</script>
 					<div style="margin-top:10px;margin-bottom:10px;padding-bottom:10px;border-bottom:2px solid rgb(255,255,255)"></div>
-					<div class="button" onclick="printPdf(2)">Štampaj PDF</div>
-					<div class="button" onclick="printPdf(1)">Sačuvaj PDF</div>
-					<div class="button" onclick="loadExample()">Učitaj Primer</div>
+					<div class="button" style="margin-bottom:10px" onclick="saveToServer();loadGif()">Sačuvaj na server</div>
+					<div class="button" style="margin-bottom:10px" onclick="printPdf(2,1)">Štampaj PDF</div>
+					<div class="button" style="margin-bottom:10px" onclick="printPdf(2,0)">Štampaj SKRAĆENI PDF</div>
+					<div class="button" style="margin-bottom:10px" onclick="printPdf(1,1)">Sačuvaj PDF</div>
+					<div class="button" style="margin-bottom:10px" onclick="printPdf(1,0)">Sačuvaj SKRAĆENI PDF</div>
+					<div class="button" style="margin-bottom:10px" onclick="loadExample()">Učitaj Primer</div>
 				</form>
 			</div>
 			
@@ -276,6 +304,8 @@
 	<script>
 		var sections	=	document.getElementById("sections").getElementsByClassName("section");
 		var menuItems	=	document.getElementById("menu").getElementsByClassName("menuItem");
+
+
 		function menuPick(elem){
 			for(var i=0;i<sections.length;i++){
 				sections[i].classList.add("sectionInactive");
@@ -315,39 +345,64 @@
 		exampleJson.napomena		=	"";
 		exampleJson.preporuka		=	"rowatinex 2x2, bactrim 480mg, 2x1. Kontrola za 7 dana.";
 		exampleJson.imeVeterinara	=	"Nataša Čubrak";
+		exampleJson.usluge		=	[
+				{
+					code: 101,
+					name:"Klinički pregled",
+					quantity: 1,
+					price: 1000,
+					date: "2022-10-31"
+				},
+				{
+					code:202,
+					name:"Uključivanje infuzije",
+					quantity: 2,
+					price: 1000,
+					date: "2022-09-30"
+				}
+			];
+
+		function saveToServer(){
+
+		}
 
 		function loadExample(){
-			document.getElementById("broj-fakture").value	=	exampleJson.broj;
-			document.getElementById("datum-fakture").value	=	exampleJson.datumFakture;
-			document.getElementById("ime-vlasnika").value	=	exampleJson.imeVlasnika;
-			document.getElementById("adresa-vlasnika").value	=	exampleJson.adresaVlasnika;
-			document.getElementById("telefon-vlasnika").value	=	exampleJson.telefonVlasnika;
+			document.getElementById("broj-fakture").value				=	exampleJson.broj;
+			document.getElementById("datum-fakture").value				=	exampleJson.datumFakture;
+			document.getElementById("ime-vlasnika").value				=	exampleJson.imeVlasnika;
+			document.getElementById("adresa-vlasnika").value			=	exampleJson.adresaVlasnika;
+			document.getElementById("telefon-vlasnika").value			=	exampleJson.telefonVlasnika;
 
-			document.getElementById("ime-zivotinje").value	=	exampleJson.imeZivotinje;
-			document.getElementById("vrsta-rasa-zivotinje").value	=	exampleJson.vrstaRasa;
-			document.getElementById("mikrocip-zivotinje").value	=	exampleJson.mikrocip;
-			document.getElementById("pol-zivotinje").value	=	exampleJson.pol;
-			document.getElementById("boja-zivotinje").value	=	exampleJson.boja;
+			document.getElementById("ime-zivotinje").value				=	exampleJson.imeZivotinje;
+			document.getElementById("vrsta-rasa-zivotinje").value		=	exampleJson.vrstaRasa;
+			document.getElementById("mikrocip-zivotinje").value			=	exampleJson.mikrocip;
+			document.getElementById("pol-zivotinje").value				=	exampleJson.pol;
+			document.getElementById("boja-zivotinje").value				=	exampleJson.boja;
 			document.getElementById("datum-rodjenja-zivotinje").value	=	exampleJson.datumRodjenja;
-			document.getElementById("tezina-zivotinje").value	=	exampleJson.tezina;
-			document.getElementById("temperatura-zivotinje").value	=	exampleJson.temperatura;
-			document.getElementById("anamneza-zivotinje").value	=	exampleJson.anamneza;
+			document.getElementById("tezina-zivotinje").value			=	exampleJson.tezina;
+			document.getElementById("temperatura-zivotinje").value		=	exampleJson.temperatura;
+			document.getElementById("anamneza-zivotinje").value			=	exampleJson.anamneza;
 			document.getElementById("klinicki-nalaz-zivotinje").value	=	exampleJson.klinickiNalaz;
-			document.getElementById("dijagnoza-zivotinje").value	=	exampleJson.dijagnoza;
-			document.getElementById("lek-zivotinje").value	=	exampleJson.lek;
-			document.getElementById("napomena-zivotinje").value	=	exampleJson.napomena;
-			document.getElementById("preporuka-zivotinje").value	=	exampleJson.preporuka;
-			document.getElementById("ime-veterinara").value	=	exampleJson.imeVeterinara;
-			addService("Klinički pregled",1,1000);
-			addService("Uključivanje infuzije",2,1000);
+			document.getElementById("dijagnoza-zivotinje").value		=	exampleJson.dijagnoza;
+			document.getElementById("lek-zivotinje").value				=	exampleJson.lek;
+			document.getElementById("napomena-zivotinje").value			=	exampleJson.napomena;
+			document.getElementById("preporuka-zivotinje").value		=	exampleJson.preporuka;
+			document.getElementById("ime-veterinara").value				=	exampleJson.imeVeterinara;
+			for(var i=0;i<exampleJson.usluge.length;i++){
+				var uslugaJson	=	JSON.parse(JSON.stringify(exampleJson.usluge[i]));
+				addService(uslugaJson.name,uslugaJson.quantity,uslugaJson.price,uslugaJson.date,uslugaJson.code);
+			}
 		}
+
+		//loadExample();
+		//printPdf(2);
 
 		function reshuffleDate(dateString){
 			var dateArray	=	dateString.split("-");
 			return dateArray[2]+"/"+dateArray[1]+"/"+dateArray[0]
 		}
 
-		function printPdf(testCase){
+		function printPdf(testCase,extraInfo){
 			var fakturaJson				=	{};
 			fakturaJson.broj			=	document.getElementById("broj-fakture").value;
 			fakturaJson.datumFakture	=	document.getElementById("datum-fakture").value;
@@ -377,6 +432,8 @@
 				serviceObject.name 		=	serviceElements[i].getElementsByClassName("serviceNameInput")[0].value;
 				serviceObject.quantity	=	serviceElements[i].getElementsByClassName("serviceQuantityInput")[0].value;
 				serviceObject.price		=	serviceElements[i].getElementsByClassName("servicePriceInput")[0].value;
+				serviceObject.date		=	serviceElements[i].getElementsByClassName("serviceDateInput")[0].value;
+				serviceObject.code		=	serviceElements[i].getElementsByClassName("serviceCodeInput")[0].value;
 				fakturaJson.usluge.push(serviceObject);
 			}
 
@@ -396,8 +453,6 @@
 			var yPos = 12;
 
 			//doc.getFontList("Helvetica");
-
-  			//doc.addFont("Arimo-Bold.ttf", "Arimo", "bold");
 		    doc.addFileToVFS("PTSans.ttf", PTSans);
 		    doc.addFileToVFS("PTSansBold.ttf", PTSansBold);
 		    doc.addFont('PTSans.ttf', 'PTSans', 'normal');
@@ -517,53 +572,56 @@
 			doc.setTextColor(249,191,32);
             doc.setFontType("bold");
 			doc.setFontSize(14);
-			yPos	=	yPos + 2.5;
-			doc.text("Podaci o pregledu: ",6,yPos);
+			if(extraInfo==1){
+				yPos	=	yPos + 2.5;
+				doc.text("Podaci o pregledu: ",6,yPos);
 
-			doc.setFontSize(11);
-			doc.setTextColor(0);
-			yPos 	=	yPos + 7;
+				doc.setFontSize(11);
+				doc.setTextColor(0);
+				yPos 	=	yPos + 7;
 
-			doc.setFontType("bold");
-			doc.text("Anamneza: ",5,yPos);
-            doc.setFontType("normal");
-			doc.text(fakturaJson.anamneza,offset,yPos);
-			yPos 	=	yPos + 5;
-			doc.setFontType("bold");
-			doc.text("Klinički Nalaz: ",5,yPos);
-            doc.setFontType("normal");
-            var loopLength = fakturaJson.klinickiNalaz.length;
-            var charactersPerLine	=	90
-            var rows	=	loopLength/charactersPerLine;
-            var wholeRows	=	Math.floor(rows);
-            var nalazArray	=	[];
-            for(var i=0;i<wholeRows;i++){
-            	nalazArray[i]	=	fakturaJson.klinickiNalaz.substring(i*charactersPerLine,eval((i+1)*charactersPerLine))+"-\n";
-            }
-            nalazArray.push(fakturaJson.klinickiNalaz.substring(wholeRows*charactersPerLine,loopLength))
-            var nalaz	=	nalazArray.join("");
-			doc.text(nalaz,offset,yPos);
-			yPos 	=	yPos +doc.getTextDimensions(nalaz).h/mm +12;
-			doc.setFontType("bold");
-			doc.text("Dijagnoza: ",5,yPos);
-            doc.setFontType("normal");
-			doc.text(fakturaJson.dijagnoza,offset,yPos);
-			yPos	=	yPos + 5;
-			doc.setFontType("bold");
-			doc.text("Lek: ",5,yPos);
-            doc.setFontType("normal");
-			doc.text(fakturaJson.lek,offset,yPos);
-			yPos	=	yPos + 5;
-			doc.setFontType("bold");
-			doc.text("Napomena: ",5,yPos);
-            doc.setFontType("normal");
-			doc.text(fakturaJson.napomena,offset,yPos);
-			yPos	=	yPos + 5;
-			doc.setFontType("bold");
-			doc.text("Preporuka: ",5,yPos);
-            doc.setFontType("normal");
-			doc.text(fakturaJson.preporuka,offset,yPos);
-			yPos	=	yPos + 5;
+				doc.setFontType("bold");
+				doc.text("Anamneza: ",5,yPos);
+	            doc.setFontType("normal");
+				doc.text(fakturaJson.anamneza,offset,yPos);
+				yPos 	=	yPos + 5;
+				doc.setFontType("bold");
+				doc.text("Klinički Nalaz: ",5,yPos);
+	            doc.setFontType("normal");
+	            var loopLength = fakturaJson.klinickiNalaz.length;
+	            var charactersPerLine	=	90
+	            var rows	=	loopLength/charactersPerLine;
+	            var wholeRows	=	Math.floor(rows);
+	            var nalazArray	=	[];
+	            for(var i=0;i<wholeRows;i++){
+	            	nalazArray[i]	=	fakturaJson.klinickiNalaz.substring(i*charactersPerLine,eval((i+1)*charactersPerLine))+"-\n";
+	            }
+	            nalazArray.push(fakturaJson.klinickiNalaz.substring(wholeRows*charactersPerLine,loopLength))
+	            var nalaz	=	nalazArray.join("");
+				doc.text(nalaz,offset,yPos);
+				yPos 	=	yPos +doc.getTextDimensions(nalaz).h/mm +12;
+				doc.setFontType("bold");
+				doc.text("Dijagnoza: ",5,yPos);
+	            doc.setFontType("normal");
+				doc.text(fakturaJson.dijagnoza,offset,yPos);
+				yPos	=	yPos + 5;
+				doc.setFontType("bold");
+				doc.text("Lek: ",5,yPos);
+	            doc.setFontType("normal");
+				doc.text(fakturaJson.lek,offset,yPos);
+				yPos	=	yPos + 5;
+				doc.setFontType("bold");
+				doc.text("Napomena: ",5,yPos);
+	            doc.setFontType("normal");
+				doc.text(fakturaJson.napomena,offset,yPos);
+				yPos	=	yPos + 5;
+				doc.setFontType("bold");
+				doc.text("Preporuka: ",5,yPos);
+	            doc.setFontType("normal");
+				doc.text(fakturaJson.preporuka,offset,yPos);
+				yPos	=	yPos + 5;
+			}
+			//Hello
 
 			doc.setDrawColor(0);
             doc.setFillColor(249,191,32);
@@ -577,23 +635,36 @@
 			doc.setFontSize(11);
 			doc.setTextColor(0);
 			yPos 	=	yPos + 7;
-			var serviceOffset1	=	100;
-			var serviceOffset2	=	125;
-			var serviceOffset3	=	150;
-			doc.text("Usluga",5,yPos);
-			doc.text("Količina",5+serviceOffset1,yPos);
-			doc.text("Cena",5+serviceOffset2,yPos);
-			doc.text("Iznos",5+serviceOffset3,yPos);
+			var serviceOffset1	=	120;
+			var serviceOffset2	=	serviceOffset1+9;
+			var serviceOffset3	=	serviceOffset2+13;
+			var serviceOffset4	=	serviceOffset3+18;
+			doc.text("Datum",5,yPos);
+			doc.text("Šifra",27,yPos);
+			doc.text("Usluga",37,yPos);
+			doc.text("Kol.",15+serviceOffset1,yPos);
+			doc.text("Cena",15+serviceOffset2,yPos);
+			doc.text("Osnovica",15+serviceOffset3,yPos);
+			doc.text("Cena sa PDV-om",15+serviceOffset4,yPos);
 			doc.setFontType("normal");
 			var totalPrice	=	0;
+			var totalPriceWithTax = 0;
 			for(var i=0;i<fakturaJson.usluge.length;i++){
 				yPos	=	yPos + 5;
-				doc.text(fakturaJson.usluge[i].name,5,yPos);
-				doc.text(fakturaJson.usluge[i].quantity,5+serviceOffset1,yPos);
-				doc.text(fakturaJson.usluge[i].price,5+serviceOffset2,yPos);
-				var iznos = eval(Number(fakturaJson.usluge[i].quantity)*Number(fakturaJson.usluge[i].price))
-				totalPrice	=	totalPrice + iznos;
-				doc.text(iznos.toFixed(0).toString(),5+serviceOffset3,yPos);
+				var dateArray	=	fakturaJson.usluge[i].date.split("-");
+				var dateString	=	Number(dateArray[2])+"."+Number(dateArray[1])+"."+dateArray[0]+".";
+				doc.text(dateString,5,yPos);
+				doc.text(fakturaJson.usluge[i].code.toString(),27,yPos);
+				doc.text(fakturaJson.usluge[i].name,37,yPos);
+				doc.text(fakturaJson.usluge[i].quantity.toString(),15+serviceOffset1,yPos);
+				doc.text(fakturaJson.usluge[i].price.toString(),15+serviceOffset2,yPos);
+				var iznos = eval(Number(fakturaJson.usluge[i].quantity)*Number(fakturaJson.usluge[i].price));
+				totalPrice			=	totalPrice + iznos;
+				totalPriceWithTax	=	totalPriceWithTax + iznos + iznos*0.2;
+				doc.text(iznos.toFixed(0).toString(),15+serviceOffset3,yPos);
+				var totalWithTax = Number(iznos+iznos*0.2).toFixed(0).toString();
+				doc.text(totalWithTax,15+serviceOffset4,yPos);
+
 			}
 			yPos	=	yPos + 5;
 
@@ -604,7 +675,7 @@
             doc.setFontType("bold");
 			doc.setFontSize(14);
 			yPos	=	yPos + 2.5;
-			var tempString	=	"Ukupno za plaćanje: " + totalPrice.toFixed(0).toString();
+			var tempString	=	"Ukupno bez PDV-a: " + totalPrice.toFixed(0).toString() +" | Ukupno sa PDV-om: " + totalPriceWithTax.toFixed(0).toString();
 			doc.text(tempString,200,yPos,'right');
 			yPos	=	yPos + 7;
 			doc.setTextColor(0);

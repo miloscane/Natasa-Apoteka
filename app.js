@@ -105,6 +105,21 @@ server.post('/login',function(req,res){
 	}
 });
 
+server.post('/new-invoice',function(req,res){
+	if(req.session.user){
+		res.redirect("/");
+	}else{
+		res.redirect("/");
+	}
+});
+
+server.get('/logout',function(req,res){
+	if(req.session){
+		req.session.destroy(function(){});
+	}
+	res.redirect('/login');
+});
+
 server.get('*',function(req,res){
 	res.send("Nepostojeci link")
 });

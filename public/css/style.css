@@ -174,6 +174,75 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.logOut{
+    position:fixed;
+    top:10px;
+    right:10px;
+    font-size:12px;
+    background-color:rgba(254,86,25,1);
+    border-radius:3px;
+    border:1px solid rgb(255,255,255,1);
+    box-shadow:2px 2px 4px rgba(0,0,0,0.34);
+    -webkit-transition:all ease 0.5s;
+    -moz-transition:all ease 0.5s;
+    -ms-transition:all ease 0.5s;
+    -o-transition:all ease 0.5s;
+    transition:all ease 0.5s;
+}
+
+.logOut:hover{
+    box-shadow:2px 2px 4px rgba(0,0,0,0);
+    border:1px solid rgba(255,255,255,0);
+}
+
+.logOut a{
+    color:rgb(255,255,255);
+    display:block;
+    text-decoration: none;
+    padding:2px;
+}
+
+.lightbox{
+    position:fixed;
+    z-index:2000;
+    background: rgba(255,255,255,0.8);
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+.lightbox .lightboxContent{
+    position:fixed;
+    top:50%;
+    left:50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    max-width:80%;
+    max-height:80vh;
+}
+
+#load-lightbox img{
+    opacity:0.8;
+}
+
+#load-lightbox .title{
+    position:absolute;
+    top:20px;
+    font-size:20px;
+    font-weight:700;
+    text-align:center;
+    width:100%;
+    color:rgb(99,82,223);
+}
+
+#load-lightbox .title span{
+    color:rgb(249,191,32);
+}
+
 #site-background{
     background: rgb(249,191,32);
     background: linear-gradient(0deg, rgba(249,191,32,1) 26%, rgba(99,82,223,1) 100%);
@@ -321,23 +390,33 @@ input[type=number] {
 .menu .menuItem{
     display:inline-block;
     vertical-align:middle;
-    border-right:2px solid rgb(255,255,255);
     padding:5px 10px;
     font-size:22px;
     font-weight:700;
     background-color:rgba(254,86,25,0);
-    color:rgb(255,133,88);
+    color:rgb(255,255,255);
+    border:1px solid rgba(255,255,255,0);
     -webkit-transition:all ease 0.2s;
     -moz-transition:all ease 0.2s;
     -ms-transition:all ease 0.2s;
     -o-transition:all ease 0.2s;
     transition:all ease 0.2s;
     cursor:pointer;
+    margin-right:10px;
+    box-shadow:2px 2px 4px rgba(0,0,0,0);
+    border-radius:3px;
+}
+
+.menu .menuItem:hover{
+    box-shadow:2px 2px 4px rgba(0,0,0,0);
+    border:1px solid rgba(255,255,255,0);
 }
 
 
 .menu .menuItemInactive{
     background-color:rgba(254,86,25,1);
+    border:1px solid rgba(255,255,255,1);
+    box-shadow:2px 2px 4px rgba(0,0,0,0.34);
     color:rgb(255,255,255);
 }
 
@@ -454,14 +533,14 @@ input[type=number] {
     margin-bottom:10px;
 }
 
-.services .serviceWrap .serviceName, .services .serviceWrap .serviceQuantity, .services .serviceWrap .servicePrice, .services .serviceWrap .serviceDelete{
+.services .serviceWrap .serviceName, .services .serviceWrap .serviceQuantity, .services .serviceWrap .servicePrice, .services .serviceWrap .serviceDelete, .services .serviceWrap .serviceDate, .services .serviceWrap .serviceCode{
     display:inline-block;
     vertical-align:middle;
     font-size:14px;
     padding:0px 3px;
 }
 
-.services .header .name, .services .header .quantity, .services .header .price{
+.services .header .name, .services .header .quantity, .services .header .price, .services .header .date, .services .header .code{
     display:inline-block;
     vertical-align: middle;
     font-size: 16px;
@@ -479,6 +558,14 @@ input[type=number] {
 
 .services .serviceWrap .servicePrice, .services .header .price{
     width:150px;
+}
+
+.services .serviceWrap .serviceDate, .services .header .date{
+    width:140px;
+}
+
+.services .serviceWrap .serviceCode, .services .header .code{
+    width:50px;
 }
 
 .services .serviceWrap .serviceDelete{
