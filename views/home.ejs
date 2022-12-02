@@ -683,7 +683,8 @@
 			doc.setFontSize(12);
 			doc.text("IPS Kod za instant plaćanje",200,yPos,'right');
 			yPos = yPos + 5;
-			var qrInfo = "K:PR|V:01|C:1|R:155000000003587846|N:AvLave|I:RSD"+totalPrice.toFixed(0).toString()+",00|P:"+fakturaJson.imeVlasnika+"|SF:289|S:Veterinarske usluge";
+			//var qrInfo = "K:PR|V:01|C:1|R:155000000003587846|N:AvLave|I:RSD"+totalPriceWithTax.toFixed(0).toString()+",00|P:"+fakturaJson.imeVlasnika+"|SF:289|S:Veterinarske usluge|RO:00Nema";
+			var qrInfo	=	"K:PR|V:01|C:1|R:155000000003587846|N:AvLave|I:RSD"+totalPriceWithTax.toFixed(0)+",00|P:Platilac|SF:221|S:Veterinarske Usluge|RO:00Nema"
 			var qrcode = new QRCode("qr-code", {
 				text: qrInfo,
 				width: 300,
