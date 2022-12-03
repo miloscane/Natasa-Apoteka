@@ -635,20 +635,29 @@
 			doc.setFontSize(11);
 			doc.setTextColor(0);
 			yPos 	=	yPos + 7;
-			var serviceOffset1	=	120;
-			var serviceOffset2	=	serviceOffset1+9;
-			var serviceOffset3	=	serviceOffset2+13;
-			var serviceOffset4	=	serviceOffset3+18;
+			var serviceOffset1	=	120;//Kolicina
+			var serviceOffset2	=	serviceOffset1+9;//Cena
+			var serviceOffset3	=	serviceOffset2+15;//Osnovica
+			var serviceOffset4	=	serviceOffset3+17;//PDV
+			var serviceOffset5	=	serviceOffset4+13;//Cena sa PDV-om
+
+			//kolicina, cena bez pdv, Osnovica za PDV, PDV, Cena sa PDV-om
 			doc.text("Datum",5,yPos);
 			doc.text("Šifra",27,yPos);
 			doc.text("Usluga",37,yPos);
 			doc.text("Kol.",15+serviceOffset1,yPos);
 			doc.text("Cena",15+serviceOffset2,yPos);
-			doc.text("Osnovica",15+serviceOffset3,yPos);
-			doc.text("Cena sa PDV-om",15+serviceOffset4,yPos);
+			doc.text("Osnovica",15+serviceOffset3,yPos);//dodaj za PDV u drugi red
+			doc.text("PDV",15+serviceOffset4,yPos);//dodaj (20%) u drugi rad
+			doc.text("Cena sa",15+serviceOffset5,yPos);//dodaj PDV-om u drugi red
+			yPos = yPos + 5;
+			doc.text("za PDV",15+serviceOffset3,yPos);
+			doc.text("PDV-om",15+serviceOffset5,yPos);
+			doc.text("(20%)",15+serviceOffset4,yPos);
 			doc.setFontType("normal");
 			var totalPrice	=	0;
 			var totalPriceWithTax = 0;
+			var totalPDV	=	0;
 			for(var i=0;i<fakturaJson.usluge.length;i++){
 				yPos	=	yPos + 5;
 				var dateArray	=	fakturaJson.usluge[i].date.split("-");
@@ -663,7 +672,10 @@
 				totalPriceWithTax	=	totalPriceWithTax + iznos + iznos*0.2;
 				doc.text(iznos.toFixed(0).toString(),15+serviceOffset3,yPos);
 				var totalWithTax = Number(iznos+iznos*0.2).toFixed(0).toString();
-				doc.text(totalWithTax,15+serviceOffset4,yPos);
+				var pdv = iznos*0.2;
+				totalPDV = totalPDV + pdv;
+				doc.text(pdv.toFixed(0).toString(),15+serviceOffset4,yPos);
+				doc.text(totalWithTax,15+serviceOffset5,yPos);
 
 			}
 			yPos	=	yPos + 5;
@@ -675,8 +687,8 @@
             doc.setFontType("bold");
 			doc.setFontSize(14);
 			yPos	=	yPos + 2.5;
-			var tempString	=	"Ukupno bez PDV-a: " + totalPrice.toFixed(0).toString() +" | Ukupno sa PDV-om: " + totalPriceWithTax.toFixed(0).toString();
-			doc.text(tempString,200,yPos,'right');
+			var tempString	=	"Ukupno bez PDV-a: " + totalPrice.toFixed(0).toString() +" | Ukupan PDV: "+totalPDV.toFixed(0).toString()+" | Ukupno sa PDV-om: " + totalPriceWithTax.toFixed(0).toString();
+			doc.text(tempString,204,yPos,'right');
 			yPos	=	yPos + 7;
 			doc.setTextColor(0);
 			doc.setFontType("normal");
@@ -684,7 +696,7 @@
 			doc.text("IPS Kod za instant plaćanje",200,yPos,'right');
 			yPos = yPos + 5;
 			//var qrInfo = "K:PR|V:01|C:1|R:155000000003587846|N:AvLave|I:RSD"+totalPriceWithTax.toFixed(0).toString()+",00|P:"+fakturaJson.imeVlasnika+"|SF:289|S:Veterinarske usluge|RO:00Nema";
-			var qrInfo	=	"K:PR|V:01|C:1|R:155000000003587846|N:AvLave|I:RSD"+totalPriceWithTax.toFixed(0)+",00|P:Platilac|SF:221|S:Veterinarske Usluge|RO:00Nema"
+			var qrInfo	=	"K:PR|V:01|C:1|R:155000000003587846|N:AvLave|I:RSD"+totalPriceWithTax.toFixed(0)+",00|P:Platilac|SF:221|S:Veterinarske Usluge|RO:00Nema";
 			var qrcode = new QRCode("qr-code", {
 				text: qrInfo,
 				width: 300,
