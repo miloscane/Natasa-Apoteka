@@ -594,9 +594,26 @@
 	            var wholeRows	=	Math.floor(rows);
 	            var nalazArray	=	[];
 	            for(var i=0;i<wholeRows;i++){
-	            	nalazArray[i]	=	fakturaJson.klinickiNalaz.substring(i*charactersPerLine,eval((i+1)*charactersPerLine))+"-\n";
+	            	var rowString	= 	fakturaJson.klinickiNalaz.substring(i*charactersPerLine,eval((i+1)*charactersPerLine));
+	            	var lastCharacterOfRow	=	rowString.substr(rowString.length - 1);
+	            	if(lastCharacterOfRow== " "){
+	            		nalazArray[i] = rowString.substring(0, rowString.length - 1) + "\n";
+	            	}else{
+	            		nalazArray[i]	=	fakturaJson.klinickiNalaz.substring(i*charactersPerLine,eval((i+1)*charactersPerLine))+"-\n";
+	            	}
 	            }
-	            nalazArray.push(fakturaJson.klinickiNalaz.substring(wholeRows*charactersPerLine,loopLength))
+	            nalazArray.push(fakturaJson.klinickiNalaz.substring(wholeRows*charactersPerLine,loopLength));
+	            for(var i=0;i<nalazArray.length;i++){
+	            	var firstLetter	=	nalazArray[i].charAt(0);
+	            	if(firstLetter	==	" "){
+	            		nalazArray[i] = nalazArray[i].substring(1);
+	            		if(nalazArray[i-1]){
+	            			nalazArray[i-1] = nalazArray[i-1].substr(0,nalazArray[i-1].length-2)+"\n";
+	            			//console.log(nalazArray[i-1].charAt(nalazArray[i-1].length-2));
+	            		}
+	            	}
+	            }
+	            console.log(nalazArray)
 	            var nalaz	=	nalazArray.join("");
 				doc.text(nalaz,offset,yPos);
 				yPos 	=	yPos +doc.getTextDimensions(nalaz).h/mm +12;
