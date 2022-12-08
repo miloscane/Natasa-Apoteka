@@ -5,7 +5,8 @@
 	<div class="logOut"><a href="/logout">Izloguj se</a></div>
 	<div class="menu" id="menu">
 		<div class="item menuItem menuItemInactive" data-name="invoices" onclick="menuPick(this)">Sve Fakture</div>
-		<div class="item menuItem menuItemInactive" id="first-menu-item" data-name="new-invoice" onclick="menuPick(this)">Nova Faktura</div>	
+		<div class="item menuItem menuItemInactive" id="first-menu-item" data-name="new-invoice" onclick="menuPick(this)">Nova Faktura</div>
+		<div class="item menuItem menuItemInactive" onclick="window.location.href='/edit-service'">Cenovnik</div>	
 	</div>
 	<div class="sections" id="sections">
 		<div class="section sectionInactive" data-name="invoices">
@@ -181,7 +182,7 @@
 								serviceCode.setAttribute("class","serviceCode");
 									var serviceCodeInput	=	document.createElement("INPUT");
 									serviceCodeInput.setAttribute("class","serviceCodeInput");
-									serviceCodeInput.setAttribute("type","number");
+									serviceCodeInput.setAttribute("type","text");
 									if(code){
 										serviceCodeInput.value = code;
 									}
@@ -347,14 +348,14 @@
 		exampleJson.imeVeterinara	=	"Nataša Čubrak";
 		exampleJson.usluge		=	[
 				{
-					code: 101,
+					code: "10204",
 					name:"Klinički pregled",
 					quantity: 1,
 					price: 1000,
 					date: "2022-10-31"
 				},
 				{
-					code:202,
+					code:"10204/1",
 					name:"Uključivanje infuzije",
 					quantity: 2,
 					price: 1000,
@@ -613,7 +614,6 @@
 	            		}
 	            	}
 	            }
-	            console.log(nalazArray)
 	            var nalaz	=	nalazArray.join("");
 				doc.text(nalaz,offset,yPos);
 				yPos 	=	yPos +doc.getTextDimensions(nalaz).h/mm +12;
@@ -661,7 +661,7 @@
 			//kolicina, cena bez pdv, Osnovica za PDV, PDV, Cena sa PDV-om
 			doc.text("Datum",5,yPos);
 			doc.text("Šifra",27,yPos);
-			doc.text("Usluga",37,yPos);
+			doc.text("Usluga",42,yPos);
 			doc.text("Kol.",15+serviceOffset1,yPos);
 			doc.text("Cena",15+serviceOffset2,yPos);
 			doc.text("Osnovica",15+serviceOffset3,yPos);//dodaj za PDV u drugi red
@@ -681,7 +681,7 @@
 				var dateString	=	Number(dateArray[2])+"."+Number(dateArray[1])+"."+dateArray[0]+".";
 				doc.text(dateString,5,yPos);
 				doc.text(fakturaJson.usluge[i].code.toString(),27,yPos);
-				doc.text(fakturaJson.usluge[i].name,37,yPos);
+				doc.text(fakturaJson.usluge[i].name,42,yPos);
 				doc.text(fakturaJson.usluge[i].quantity.toString(),15+serviceOffset1,yPos);
 				doc.text(fakturaJson.usluge[i].price.toString(),15+serviceOffset2,yPos);
 				var iznos = eval(Number(fakturaJson.usluge[i].quantity)*Number(fakturaJson.usluge[i].price));

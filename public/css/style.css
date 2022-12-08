@@ -553,7 +553,7 @@ input[type=number] {
 }
 
 .services .serviceWrap .serviceQuantity, .services .header .quantity{
-    width:100px;
+    width:76px;
 }
 
 .services .serviceWrap .servicePrice, .services .header .price{
@@ -565,7 +565,7 @@ input[type=number] {
 }
 
 .services .serviceWrap .serviceCode, .services .header .code{
-    width:50px;
+    width:88px;
 }
 
 .services .serviceWrap .serviceDelete{
@@ -573,8 +573,91 @@ input[type=number] {
     text-align:right;
 }
 
+.priceForm{
+    margin-top:10px;
+}
+
+.priceForm .inputWrap{
+    text-align:left;
+    margin-bottom:20px;
+    display:inline-block;
+    vertical-align: middle;
+}
+
+.priceForm .inputWrap .title{
+    font-weight:600;
+    font-size:20px;
+}
 
 
+.priceForm input{
+    font-size:18px;
+    font-weight:300;
+    text-align:left;
+    color:rgb(255,255,255);
+    width:100%;
+    background-color:rgba(0,0,0,0.5);
+    padding:7px 3px;
+    border:1px solid rgba(255,255,255,1);
+    -webkit-transition:all ease 0.5s;
+    -moz-transition:all ease 0.5s;
+    -ms-transition:all ease 0.5s;
+    -o-transition:all ease 0.5s;
+    transition:all ease 0.5s;
+}
+
+
+.priceForm input:focus{
+    outline:none;
+    border:1px solid rgba(254,86,25,1);
+    color:rgb(254,86,25);
+}
+
+.priceForm .sifra{
+    width:88px;
+}
+
+.priceForm .naziv{
+    width:400px;
+}
+
+.priceForm .cena{
+    width:150px;
+}
+
+#prices{
+    text-align:left;
+}
+
+#prices .row{
+    padding:3px;
+}
+
+#prices .row:nth-child(even){
+    background-color:rgba(0,0,0,0.3);
+}
+
+#prices .inline{
+    display:inline-block;
+    vertical-align:top;
+}
+
+#prices .code{
+    width:88px;
+}
+
+#prices .name{
+    width:400px;
+}
+
+#prices .price{
+    width:150px;
+}
+
+#prices .button{
+    padding:3px;
+    font-size:11px;
+}
 
 
 

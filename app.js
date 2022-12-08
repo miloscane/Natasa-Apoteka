@@ -41,6 +41,7 @@ function hashString(string){
 var database;
 var usersDB;
 var invoiceDB;
+var serviceDB;
 
 //PORT Listening
 http.listen(process.env.PORT, function(){
@@ -51,6 +52,7 @@ http.listen(process.env.PORT, function(){
 			database 				=	client;
 			invoiceDB				=	database.db(process.env.database).collection('Fakture');
 			usersDB 				=	database.db(process.env.database).collection('Korisnici');
+			serviceDB 				=	database.db(process.env.database).collection('Cenovnik');
 			console.log("Database Connected...")
 		}
 	});
@@ -118,6 +120,73 @@ server.get('/logout',function(req,res){
 		req.session.destroy(function(){});
 	}
 	res.redirect('/login');
+});
+
+server.get('/edit-service',function(req,res){
+	if(req.session.user){
+		serviceDB.find({}).toArray(function(err,services){
+			if(err){
+				console.log(err);
+				res.send("Greska u bazi podataka");
+			}else{
+				res.render("editService",{
+					services: JSON.parse(JSON.stringify(services))
+				});
+			}
+		});
+		
+	}else{
+		res.redirect("/");
+	}
+});
+
+server.post('/edit-service',function(req,res){
+	if(req.session.user){
+		if(req.body.id=="new"){
+			var serviceJson	=	{};
+			serviceJson.code = req.body.code;
+			serviceJson.name = req.body.name;
+			serviceJson.price = req.body.price;
+			serviceJson.uniqueId = new Date().getTime().toString();
+			serviceDB.insertOne(serviceJson,function(err,addedResult){
+				if(err){
+					console.log(err);
+					res.send("Greska u bazi podataka")
+				}else{
+					res.redirect('/edit-service');
+				}
+			});	
+		}else{
+			var setObj	=	{ $set: {code:req.body.code,name:req.body.name,price:req.body.price}};
+			serviceDB.updateOne({uniqueId:req.body.id.toString()},setObj, (err , collection) => {
+				if(err){
+					console.log(err);
+					res.send("Greska u bazi podataka");
+				}else{
+					res.redirect('/edit-service');
+				}
+			});
+		}
+	}else{
+		res.redirect("/");
+	}
+	
+});
+
+server.post('/delete-service',function(req,res){
+	if(req.session.user){
+		serviceDB.deleteOne({uniqueId:req.body.id},function(err,deletionResult){
+			if(err){
+				console.log(err);
+				res.send("greska u bazi podataka");
+			}else{
+				res.redirect("/edit-service")
+			}
+		});
+	}else{
+		res.redirect("/");
+	}
+	
 });
 
 server.get('*',function(req,res){

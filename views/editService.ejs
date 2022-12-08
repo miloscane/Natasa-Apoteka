@@ -1,0 +1,104 @@
+<%- include ("partials/header") -%>
+	<script>
+		var services	=	<%- JSON.stringify(services) %>;
+	</script>
+	<div class="pageTitle">Cenovnik</div>
+	<div class="logOut"><a href="/logout">Izloguj se</a></div>
+	<div class="menu" id="menu">
+		<div class="item menuItem menuItemInactive" onclick="window.location.href='/'">Fakturisanje</div>	
+	</div>
+	<div class="priceForm">
+		<form method="POST" action="/edit-service" id="form">
+			<input id="price-id" type="text" name="id" value="new" style="display:none">
+			<div class="inputWrap sifra">
+				<div class="title">Sifra</div>
+				<div class="input">
+					<input type="text" name="code" id="code">
+				</div>
+			</div>
+			<div class="inputWrap naziv">
+				<div class="title">Naziv</div>
+				<div class="input">
+					<input type="text" name="name" id="name">
+				</div>
+			</div>
+			<div class="inputWrap naziv">
+				<div class="title">Cena</div>
+				<div class="input">
+					<input type="number" name="price" id="price">
+				</div>
+			</div>
+			<div class="inputWrap">
+				<div class="button" onclick="submitForm()">Sacuvaj</div>
+			</div>
+			<div id="error" style="margin-top:2px;color:rgb(255,0,0)"></div>
+		</form>
+		<script>
+			function submitForm(){
+				if(document.getElementById("code").value && document.getElementById("name").value && document.getElementById("price").value){
+					loadGif();
+					document.getElementById("form").submit();
+				}else{
+					document.getElementById("error").innerHTML	=	"Sva polja moraju biti popunjena!";
+				}
+			}
+		</script>
+	</div>
+	<div style="display:none">
+		<form method="post" action="/delete-service" id="delete-form">
+			<input type="text" id="deletion-id" name="id">
+		</form>
+	</div>
+	<div style="margin:15px;height:2px;background-color:rgb(255,255,255)"></div>
+	<div id="prices"></div>
+	<script>
+		for(var i=0;i<services.length;i++){
+			var serviceJson	=	JSON.parse(JSON.stringify(services[i]));
+			var row = document.createElement("DIV");
+			row.setAttribute("class","row");
+				var elem = document.createElement("DIV");
+				elem.setAttribute("class","inline code");
+				elem.innerHTML	=	serviceJson.code;
+				row.appendChild(elem);
+
+				var elem = document.createElement("DIV");
+				elem.setAttribute("class","inline name");
+				elem.innerHTML	=	serviceJson.name;
+				row.appendChild(elem);
+
+				var elem = document.createElement("DIV");
+				elem.setAttribute("class","inline price");
+				elem.innerHTML	=	serviceJson.price;
+				row.appendChild(elem);
+
+				var elem = document.createElement("DIV");
+				elem.setAttribute("class","button");
+				elem.setAttribute("data-service",JSON.stringify(serviceJson));
+				elem.setAttribute("onclick","editService(this)")
+				elem.innerHTML	=	"Izmeni";
+				row.appendChild(elem);
+
+				var elem = document.createElement("DIV");
+				elem.setAttribute("class","button");
+				elem.setAttribute("data-id",serviceJson.uniqueId);
+				elem.setAttribute("onclick","deleteService(this)")
+				elem.innerHTML	=	"Obrisi";
+				row.appendChild(elem);
+			document.getElementById("prices").appendChild(row);
+		}
+
+		function editService(elem){
+			var serviceJson	=	JSON.parse(elem.dataset.service);
+			document.getElementById("price-id").value = serviceJson.uniqueId;
+			document.getElementById("code").value = serviceJson.code;
+			document.getElementById("name").value = serviceJson.name;
+			document.getElementById("price").value = serviceJson.price;
+		}
+
+		function deleteService(elem){
+			document.getElementById("deletion-id").value = elem.dataset.id;
+			loadGif();
+			document.getElementById("delete-form").submit();
+		}
+	</script>
+<%- include ("partials/footer") -%>
