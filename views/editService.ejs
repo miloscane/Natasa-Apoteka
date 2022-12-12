@@ -1,12 +1,9 @@
 <%- include ("partials/header") -%>
+<%- include ("partials/menu") -%>
 	<script>
 		var services	=	<%- JSON.stringify(services) %>;
 	</script>
 	<div class="pageTitle">Cenovnik</div>
-	<div class="logOut"><a href="/logout">Izloguj se</a></div>
-	<div class="menu" id="menu">
-		<div class="item menuItem menuItemInactive" onclick="window.location.href='/'">Fakturisanje</div>	
-	</div>
 	<div class="priceForm">
 		<form method="POST" action="/edit-service" id="form">
 			<input id="price-id" type="text" name="id" value="new" style="display:none">
@@ -93,6 +90,7 @@
 			document.getElementById("code").value = serviceJson.code;
 			document.getElementById("name").value = serviceJson.name;
 			document.getElementById("price").value = serviceJson.price;
+			window.scrollTo(0,0)
 		}
 
 		function deleteService(elem){

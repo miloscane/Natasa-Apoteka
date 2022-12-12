@@ -273,9 +273,10 @@ input[type=number] {
 
 .pageTitle{
     font-size:26px;
-    font-weight:300;
+    font-weight:500;
     font-style:italic;
-    margin-bottom:20px;
+    margin-top:20px;
+    margin-bottom:10px;
 }
 
 .loginWrap{
@@ -659,7 +660,137 @@ input[type=number] {
     font-size:11px;
 }
 
+.services .serviceWrap{
+    position:relative;
+}
 
+
+.services .serviceWrap .suggestions{
+    position:absolute;
+    left:0;
+    right:0;
+    top:50%;
+    background-color:rgb(255,255,255);
+    border:1px solid rgb(254,86,25);
+    height:150px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display:none;
+    z-index:2200;
+}
+
+
+.services .serviceWrap .suggestions .row{
+    padding:5px;
+    border-bottom:1px solid rgb(254,86,25);
+    color:rgb(99,82,223);
+    font-size:14px;
+    cursor:pointer;
+}
+
+
+.services .serviceWrap .suggestions .row:hover{
+    background-color:rgb(99,82,223);
+    color:rgb(255,255,255);
+}
+
+
+.services .serviceWrap .suggestions .row .serviceCodeSuggestion, .services .serviceWrap .suggestions .row .serviceNameSuggestion, .services .serviceWrap .suggestions .row .servicePriceSuggestion{
+    display:inline-block;
+    vertical-align:top;
+}
+
+.services .serviceWrap .suggestions .row .serviceCodeSuggestion{
+    width:93px;
+}
+
+.services .serviceWrap .suggestions .row .serviceNameSuggestion{
+    width:398px;
+    margin-right:214px;
+}
+
+.services .serviceWrap .suggestions .suggestionsClose{
+    position:absolute;
+    top:5px;
+    right:5px;
+    cursor:pointer;
+    padding:3px;
+    font-size:14px;
+    color:rgb(255,255,255);
+    background-color:rgb(255,0,0);
+    z-index:2300;
+}
+
+.allInvoices{
+    font-size:0;
+    text-align:left;
+}
+
+.allInvoices .inline{
+    display:inline-block;
+    vertical-align: top;
+    font-size:14px;
+    font-weight:400;
+}
+
+.allInvoices .header{
+    background-color:rgb(255,255,255);
+    color:rgb(99,82,223);
+    padding:5px 2px;
+}
+
+.allInvoices .header .inline{
+    font-weight:700;
+}
+
+.allInvoices .broj{
+    width:100px;
+}
+
+.allInvoices .imeVlasnika{
+    width:150px;
+}
+
+.allInvoices .imeZivotinje{
+    width:150px;
+}
+
+.allInvoices .vrstaRasa{
+    width:150px;
+}
+
+.allInvoices #invoices .row{
+    padding:5px 2px;
+}
+
+.allInvoices #invoices .rowHighlight{
+    background-color:rgba(0,0,0,0.3);
+}
+
+.allInvoices .filters{
+    color:rgb(99,82,223);
+}
+
+.allInvoices .filters input{
+    max-width: 100%;
+    width:100%;
+}
+
+.allInvoices .button{
+    font-size:10px;
+    padding:0;
+}
+.allInvoices .button a{
+    padding:3px;
+}
+
+.allInvoices .eraseButton{
+    background:rgb(255,0,0);
+    color:rgb(255,255,255);
+    border:1px solid rgb(0,0,0);
+    margin-left:4px;
+    padding:3px;
+}
 
 
 

@@ -1,0 +1,128 @@
+<%- include ("partials/header") -%>
+<%- include ("partials/menu") -%>
+	<script>
+		var invoices	=	<%- JSON.stringify(invoices) %>;
+	</script>
+	<div class="pageTitle">Sve Fakture</div>
+	<div class="allInvoices">
+		<div class="filters">
+			<div class="inline broj">
+				<input type="text" placeholder="Filter broja" id="broj-filter" oninput="filter()">
+			</div>
+			<div class="inline imeVlasnika">
+				<input type="text" placeholder="Filter Vlasnika" id="ime-vlasnika-filter" oninput="filter()">
+			</div>
+			<div class="inline imeZivotinje">
+				<input type="text" placeholder="Filter Zivotinje" id="ime-zivotinje-filter" oninput="filter()">
+			</div>
+			<div class="inline vrstaRasa">
+				<input type="text" placeholder="Filter Vrsta/Rasa" id="vrsta-rasa-filter" oninput="filter()">
+			</div>
+		</div>
+		<div class="header">
+			<div class="inline broj">Broj:</div>
+			<div class="inline imeVlasnika">Ime Vlasnika:</div>
+			<div class="inline imeZivotinje">Ime Životinje:</div>
+			<div class="inline vrstaRasa">Vrsta / rasa:</div>
+		</div>
+		<div id="invoices"></div>
+		<script>
+			for(var i=0;i<invoices.length;i++){
+				var invoice	=	JSON.parse(JSON.stringify(invoices[i]));
+				var row = document.createElement("DIV");
+				row.setAttribute("class","row");
+				row.setAttribute("data-json",JSON.stringify(invoice));
+				if(i%2==0){
+					row.classList.add("rowHighlight");
+				}
+					var item = document.createElement("DIV");
+					item.setAttribute("class","inline broj");
+					item.innerHTML	=	invoice.broj;
+					row.appendChild(item);
+
+					var item = document.createElement("DIV");
+					item.setAttribute("class","inline imeVlasnika");
+					item.innerHTML	=	invoice.imeVlasnika;
+					row.appendChild(item);
+
+					var item = document.createElement("DIV");
+					item.setAttribute("class","inline imeZivotinje");
+					item.innerHTML	=	invoice.imeZivotinje;
+					row.appendChild(item);
+
+					var item = document.createElement("DIV");
+					item.setAttribute("class","inline vrstaRasa");
+					item.innerHTML	=	invoice.vrstaRasa;
+					row.appendChild(item);
+
+					var item = document.createElement("DIV");
+					item.setAttribute("class","inline button");
+					item.innerHTML	=	"<a target=\"_blank\" href=\"/invoice-view/"+invoice.uniqueId+"\">Pogledaj Fakturu</a>";
+					row.appendChild(item);
+
+					var item = document.createElement("DIV");
+					item.setAttribute("class","inline button eraseButton");
+					item.setAttribute("onclick","deleteInvoice(\""+invoice.uniqueId+"\")");
+					item.innerHTML	=	"obrisiFakturu";
+					row.appendChild(item);
+				document.getElementById("invoices").appendChild(row);
+			}
+
+			function filter(){
+				var filterBroja				=	document.getElementById("broj-filter").value;
+				var filterImenaVlasnika		=	document.getElementById("ime-vlasnika-filter").value;
+				var filterImenaZivotinje	=	document.getElementById("ime-zivotinje-filter").value;
+				var filterVrstaRasa			=	document.getElementById("vrsta-rasa-filter").value;
+				var rowElements				=	document.getElementById("invoices").getElementsByClassName("row");
+				for(var i=0;i<rowElements.length;i++){
+					rowElements[i].classList.remove("rowHighlight");
+					rowElements[i].style.display="block";
+					var rowJson	=	JSON.parse(rowElements[i].dataset.json);
+					if(filterBroja!=""){
+						if(!rowJson.broj.toLowerCase().includes(filterBroja.toLowerCase())){
+							rowElements[i].style.display="none";
+						}
+					}
+
+					if(filterImenaVlasnika!=""){
+						if(!rowJson.imeVlasnika.toLowerCase().includes(filterImenaVlasnika.toLowerCase())){
+							rowElements[i].style.display="none";
+						}
+					}
+
+					if(filterImenaZivotinje!=""){
+						if(!rowJson.imeZivotinje.toLowerCase().includes(filterImenaZivotinje.toLowerCase())){
+							rowElements[i].style.display="none";
+						}
+					}
+
+					if(filterVrstaRasa!=""){
+						if(!rowJson.vrstaRasa.toLowerCase().includes(filterVrstaRasa.toLowerCase())){
+							rowElements[i].style.display="none";
+						}
+					}
+				}
+
+				var highlight = true;
+				for(var i=0;i<rowElements.length;i++){
+					if(rowElements[i].style.display=="block" && highlight){
+						rowElements[i].classList.add("rowHighlight");
+						highlight = false;
+					}else if(rowElements[i].style.display=="block" && !highlight){
+						highlight = true;
+					}
+				}
+			}
+		</script>
+		<form method="POST" action="/delete-invoice" id="delete-form" style="display:none">
+			<input type="text" name="deletionid" id="deletion-id">
+		</form>
+		<script>
+			function deleteInvoice(id){
+				loadGif();
+				document.getElementById("deletion-id").value=id;
+				document.getElementById("delete-form").submit();
+			}
+		</script>
+	</div>
+<%- include ("partials/footer") -%>

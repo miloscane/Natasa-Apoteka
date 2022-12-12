@@ -12,5 +12,15 @@
 				document.getElementById("load-lightbox").style.display="block";
 			}
 		</script>
+		<script>
+			if(document.getElementById("menu") && document.getElementsByClassName("pageTitle")[0]){
+				var menuItems	=	document.getElementById("menu").getElementsByClassName("menuItem");
+				for(var i=0;i<menuItems.length;i++){
+					if(menuItems[i].innerHTML.toLowerCase() == document.getElementsByClassName("pageTitle")[0].innerHTML.toLowerCase()){
+						menuItems[i].classList.remove("menuItemInactive");
+					}
+				}
+			}
+		</script>
 	</body>
 </html>
