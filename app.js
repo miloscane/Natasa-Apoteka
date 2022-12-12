@@ -75,6 +75,9 @@ var url	=	process.env.mongourl;
 
 
 server.get('/',function(req,res){
+	if(process.env.siteurl=="http://localhost:3000"){
+		req.session.user = {email:"avlave@hotmail.com","role":10}
+	}
 	if(req.session.user){
 		serviceDB.find({}).toArray(function(err,cenovnik){
 			if(err){
@@ -273,8 +276,6 @@ server.get('/invoice-view/:uniqueId',function(req,res){
 		res.redirect("/login");
 	}
 });
-
-
 
 server.post('/delete-invoice',function(req,res){
 	if(req.session.user){
