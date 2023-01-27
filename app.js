@@ -1,17 +1,17 @@
 //Server
 var server				=	require('express')();
-var http					=	require('http').Server(server);
-var httpl 				= require('http');
-var net						=	require('net');
+var http				=	require('http').Server(server);
+var httpl 				=	require('http');
+var net					=	require('net');
 var express				=	require('express');
-var fs						=	require('fs');   
-var bodyParser		=	require('body-parser');    
+var fs					=	require('fs');   
+var bodyParser			=	require('body-parser');    
 var session				=	require('express-session');
-var nodemailer 		= require('nodemailer');
+var nodemailer 			=	require('nodemailer');
 const dotenv 			=	require('dotenv');
-var cookieParser	=	require('cookie-parser');
+var cookieParser		=	require('cookie-parser');
 var crypto				=	require('crypto');
-var mongo					=	require('mongodb');
+var mongo				=	require('mongodb');
 dotenv.config();
 
 server.set('view engine','ejs');

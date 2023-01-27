@@ -42,6 +42,38 @@
 <script src="/js/font2.js"></script>
 <script>
 	var mm = 3.7795275591;
+
+	function stringArray(string,perLine){
+		var loopLength = string.length;
+        var charactersPerLine	=	perLine;
+        var rows	=	loopLength/charactersPerLine;
+        var wholeRows	=	Math.floor(rows);
+        var nalazArray	=	[];
+        for(var i=0;i<wholeRows;i++){
+        	var rowString	= 	string.substring(i*charactersPerLine,eval((i+1)*charactersPerLine));
+        	var lastCharacterOfRow	=	rowString.substr(rowString.length - 1);
+        	if(lastCharacterOfRow== " "){
+        		nalazArray[i] = rowString.substring(0, rowString.length - 1) + "\n";
+        	}else{
+        		nalazArray[i]	=	string.substring(i*charactersPerLine,eval((i+1)*charactersPerLine))+"-\n";
+        	}
+        }
+        nalazArray.push(string.substring(wholeRows*charactersPerLine,loopLength));
+        for(var i=0;i<nalazArray.length;i++){
+        	var firstLetter	=	nalazArray[i].charAt(0);
+        	if(firstLetter	==	" "){
+        		nalazArray[i] = nalazArray[i].substring(1);
+        		if(nalazArray[i-1]){
+        			nalazArray[i-1] = nalazArray[i-1].substr(0,nalazArray[i-1].length-2)+"\n";
+        			//console.log(nalazArray[i-1].charAt(nalazArray[i-1].length-2));
+        		}
+        	}
+        }
+
+        return nalazArray
+	}
+
+
 	function printPdf(fakturaJson,testCase,extraInfo){
 		doc = new jsPDF({
 			orientation: 'p',
@@ -186,59 +218,34 @@
 			doc.setFontType("bold");
 			doc.text("Anamneza: ",5,yPos);
             doc.setFontType("normal");
-			doc.text(fakturaJson.anamneza,offset,yPos);
-			yPos 	=	yPos + 5;
+			doc.text(stringArray(fakturaJson.anamneza,90),offset,yPos);
+			yPos 	=	yPos + stringArray(fakturaJson.anamneza,90).length * 5;
 			doc.setFontType("bold");
 			doc.text("Klinički Nalaz: ",5,yPos);
             doc.setFontType("normal");
-            var loopLength = fakturaJson.klinickiNalaz.length;
-            var charactersPerLine	=	90
-            var rows	=	loopLength/charactersPerLine;
-            var wholeRows	=	Math.floor(rows);
-            var nalazArray	=	[];
-            for(var i=0;i<wholeRows;i++){
-            	var rowString	= 	fakturaJson.klinickiNalaz.substring(i*charactersPerLine,eval((i+1)*charactersPerLine));
-            	var lastCharacterOfRow	=	rowString.substr(rowString.length - 1);
-            	if(lastCharacterOfRow== " "){
-            		nalazArray[i] = rowString.substring(0, rowString.length - 1) + "\n";
-            	}else{
-            		nalazArray[i]	=	fakturaJson.klinickiNalaz.substring(i*charactersPerLine,eval((i+1)*charactersPerLine))+"-\n";
-            	}
-            }
-            nalazArray.push(fakturaJson.klinickiNalaz.substring(wholeRows*charactersPerLine,loopLength));
-            for(var i=0;i<nalazArray.length;i++){
-            	var firstLetter	=	nalazArray[i].charAt(0);
-            	if(firstLetter	==	" "){
-            		nalazArray[i] = nalazArray[i].substring(1);
-            		if(nalazArray[i-1]){
-            			nalazArray[i-1] = nalazArray[i-1].substr(0,nalazArray[i-1].length-2)+"\n";
-            			//console.log(nalazArray[i-1].charAt(nalazArray[i-1].length-2));
-            		}
-            	}
-            }
-            var nalaz	=	nalazArray.join("");
-			doc.text(nalaz,offset,yPos);
-			yPos 	=	yPos +doc.getTextDimensions(nalaz).h/mm +12;
+            
+			doc.text(stringArray(fakturaJson.klinickiNalaz,90),offset,yPos);
+			yPos 	=	yPos + stringArray(fakturaJson.klinickiNalaz,90).length * 5;
 			doc.setFontType("bold");
 			doc.text("Dijagnoza: ",5,yPos);
             doc.setFontType("normal");
-			doc.text(fakturaJson.dijagnoza,offset,yPos);
-			yPos	=	yPos + 5;
+			doc.text(stringArray(fakturaJson.dijagnoza,90),offset,yPos);
+			yPos	=	yPos + stringArray(fakturaJson.dijagnoza,90).length * 5;
 			doc.setFontType("bold");
 			doc.text("Lek: ",5,yPos);
             doc.setFontType("normal");
-			doc.text(fakturaJson.lek,offset,yPos);
-			yPos	=	yPos + 5;
+			doc.text(stringArray(fakturaJson.lek,90),offset,yPos);
+			yPos	=	yPos + stringArray(fakturaJson.lek,90).length * 5;
 			doc.setFontType("bold");
 			doc.text("Napomena: ",5,yPos);
             doc.setFontType("normal");
-			doc.text(fakturaJson.napomena,offset,yPos);
-			yPos	=	yPos + 5;
+			doc.text(stringArray(fakturaJson.napomena,90),offset,yPos);
+			yPos	=	yPos + stringArray(fakturaJson.napomena,90).length * 5;
 			doc.setFontType("bold");
 			doc.text("Preporuka: ",5,yPos);
             doc.setFontType("normal");
-			doc.text(fakturaJson.preporuka,offset,yPos);
-			yPos	=	yPos + 5;
+			doc.text(stringArray(fakturaJson.preporuka,90),offset,yPos);
+			yPos	=	yPos + stringArray(fakturaJson.preporuka,90).length * 5;
 		}
 		//Hello
 
@@ -254,16 +261,19 @@
 		doc.setFontSize(11);
 		doc.setTextColor(0);
 		yPos 	=	yPos + 7;
-		var serviceOffset1	=	120;//Kolicina
-		var serviceOffset2	=	serviceOffset1+9;//Cena
-		var serviceOffset3	=	serviceOffset2+15;//Osnovica
-		var serviceOffset4	=	serviceOffset3+17;//PDV
-		var serviceOffset5	=	serviceOffset4+13;//Cena sa PDV-om
+		var serviceOffset1	=	100;//Kolicina
+		var serviceOffset2	=	serviceOffset1+10;//Cena
+		var serviceOffset3	=	serviceOffset2+19;//Osnovica
+		var serviceOffset4	=	serviceOffset3+21;//PDV
+		var serviceOffset5	=	serviceOffset4+17;//Cena sa PDV-om
 
 		//kolicina, cena bez pdv, Osnovica za PDV, PDV, Cena sa PDV-om
-		doc.text("Datum",5,yPos);
-		doc.text("Šifra",27,yPos);
-		doc.text("Usluga",42,yPos);
+		var xTemp	=	5;
+		doc.text("Datum",xTemp,yPos);
+		xTemp	=	xTemp + 20;
+		doc.text("Šifra",xTemp,yPos);
+		xTemp	=	xTemp + 12;
+		doc.text("Usluga",xTemp,yPos);
 		doc.text("Kol.",15+serviceOffset1,yPos);
 		doc.text("Cena",15+serviceOffset2,yPos);
 		doc.text("Osnovica",15+serviceOffset3,yPos);//dodaj za PDV u drugi red
@@ -278,22 +288,31 @@
 		var totalPriceWithTax = 0;
 		var totalPDV	=	0;
 		for(var i=0;i<fakturaJson.usluge.length;i++){
-			yPos	=	yPos + 5;
+			if(usluga){
+				yPos	=	yPos + usluga.length*5;
+			}else{
+				yPos	=	yPos + 5;
+			}
+			
 			var dateArray	=	fakturaJson.usluge[i].date.split("-");
 			var dateString	=	Number(dateArray[2])+"."+Number(dateArray[1])+"."+dateArray[0]+".";
-			doc.text(dateString,5,yPos);
-			doc.text(fakturaJson.usluge[i].code.toString(),27,yPos);
-			doc.text(fakturaJson.usluge[i].name,42,yPos);
+			xTemp = 5;
+			doc.text(dateString,xTemp,yPos);
+			xTemp = xTemp + 20;
+			doc.text(fakturaJson.usluge[i].code.toString(),xTemp,yPos);
+			xTemp	=	xTemp + 12;
+			var usluga = stringArray(fakturaJson.usluge[i].name,38);
+			doc.text(usluga,xTemp,yPos);
 			doc.text(fakturaJson.usluge[i].quantity.toString(),15+serviceOffset1,yPos);
-			doc.text(fakturaJson.usluge[i].price.toString(),15+serviceOffset2,yPos);
-			var iznos = eval(Number(fakturaJson.usluge[i].quantity)*Number(fakturaJson.usluge[i].price));
+			doc.text(brojSaRazmacima(fakturaJson.usluge[i].price),15+serviceOffset2,yPos);
+			var iznos = parseFloat(fakturaJson.usluge[i].quantity)*parseFloat(fakturaJson.usluge[i].price);
 			totalPrice			=	totalPrice + iznos;
 			totalPriceWithTax	=	totalPriceWithTax + iznos + iznos*0.2;
-			doc.text(iznos.toFixed(0).toString(),15+serviceOffset3,yPos);
-			var totalWithTax = Number(iznos+iznos*0.2).toFixed(0).toString();
+			doc.text(brojSaRazmacima(iznos),15+serviceOffset3,yPos);
+			var totalWithTax = brojSaRazmacima(iznos+iznos*0.2);
 			var pdv = iznos*0.2;
 			totalPDV = totalPDV + pdv;
-			doc.text(pdv.toFixed(0).toString(),15+serviceOffset4,yPos);
+			doc.text(brojSaRazmacima(pdv),15+serviceOffset4,yPos);
 			doc.text(totalWithTax,15+serviceOffset5,yPos);
 
 		}
@@ -304,9 +323,9 @@
 		doc.rect(5, yPos-3, pageWidth-10, 8, 'F');
 		doc.setTextColor(249,191,32);
         doc.setFontType("bold");
-		doc.setFontSize(14);
+		doc.setFontSize(12);
 		yPos	=	yPos + 2.5;
-		var tempString	=	"Ukupno bez PDV-a: " + totalPrice.toFixed(0).toString() +" | Ukupan PDV: "+totalPDV.toFixed(0).toString()+" | Ukupno sa PDV-om: " + totalPriceWithTax.toFixed(0).toString();
+		var tempString	=	"Ukupno bez PDV-a: " + brojSaRazmacima(totalPrice) +" | Ukupan PDV: "+brojSaRazmacima(totalPDV)+" | Ukupno sa PDV-om: " + brojSaRazmacima(totalPriceWithTax);
 		doc.text(tempString,204,yPos,'right');
 		yPos	=	yPos + 7;
 		doc.setTextColor(0);
